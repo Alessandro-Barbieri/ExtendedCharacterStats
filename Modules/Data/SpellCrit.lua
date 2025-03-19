@@ -58,7 +58,7 @@ function _SpellCrit:GetSpellCritFromBuffs(school)
                     mod = mod + 50 -- 50% from Combustion
                 end
                 if (school == Data.FIRE_SCHOOL and aura.spellId == 28682) then
-                    mod = mod + (aura.charges * 10) -- 10% for each stack from Combustion
+                    mod = mod + (aura.applications * 10) -- 10% for each stack from Combustion
                 end
             else
                 if (school == Data.FIRE_SCHOOL and aura.spellId == 11129) then
