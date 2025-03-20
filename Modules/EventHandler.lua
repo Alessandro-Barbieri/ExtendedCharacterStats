@@ -14,7 +14,7 @@ function Stats.DelayedUpdateInformation(self)
     end)
 end
 
-function GearInfos.DelayedUpdateInformation(self)
+function GearInfos.DelayedUpdateInspectGearColorFrames(self)
     self:SetScript("OnUpdate",nil)
     -- update next frame
     C_Timer.After(0, function ()
@@ -56,11 +56,11 @@ function EventHandler.HandleOnEvent(self, event, ...)
         and args == "player") then
         self:SetScript("OnUpdate", Stats.DelayedUpdateInformation)
     elseif event == "PLAYER_EQUIPMENT_CHANGED" or event == "SOCKET_INFO_SUCCESS" then
-        self:SetScript("OnUpdate", GearInfos.DelayedUpdateInformation)
+        self:SetScript("OnUpdate", GearInfos.DelayedUpdateInspectGearColorFrames)
         self:SetScript("OnUpdate", Stats.DelayedUpdateInformation)
     elseif event == "PLAYER_MOUNT_DISPLAY_CHANGED" then
         self:SetScript("OnUpdate", Stats.DelayedUpdateInformation)
     elseif (event == "INSPECT_READY" and args[1] == UnitGUID("target")) then
-        self:SetScript("OnUpdate", GearInfos.DelayedUpdateInformation)
+        self:SetScript("OnUpdate", GearInfos.DelayedUpdateInspectGearColorFrames)
     end
 end
