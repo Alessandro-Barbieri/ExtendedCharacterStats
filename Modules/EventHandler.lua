@@ -50,7 +50,7 @@ function EventHandler.HandleOnEvent(self, event, ...)
         or event == "UNIT_AURA"
         or event == "UNIT_DAMAGE"
         or event == "UNIT_SPELL_HASTE"
-        or event == "UNIT_STATS" 
+        or event == "UNIT_STATS"
         or event == "UNIT_RANGEDDAMAGE"
         or event == "UNIT_RANGED_ATTACK_POWER")
         and args == "player") then
