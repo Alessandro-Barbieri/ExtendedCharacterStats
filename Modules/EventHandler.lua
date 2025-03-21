@@ -53,7 +53,7 @@ function EventHandler.HandleOnEvent(self, event, ...)
         or event == "UNIT_STATS"
         or event == "UNIT_RANGEDDAMAGE"
         or event == "UNIT_RANGED_ATTACK_POWER")
-        and args == "player") then
+        and args[1] == "player") then
         self:SetScript("OnUpdate", Stats.DelayedUpdateInformation)
     elseif event == "PLAYER_EQUIPMENT_CHANGED" or event == "SOCKET_INFO_SUCCESS" then
         self:SetScript("OnUpdate", GearInfos.DelayedUpdateInspectGearColorFrames)
