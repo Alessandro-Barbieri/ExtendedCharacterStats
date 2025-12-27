@@ -97,6 +97,15 @@ Data.Aura.IsLightningShield = {
     [49280] = true, -- Lightning Shield rank 10
     [49281] = true, -- Lightning Shield rank 11
 }
+Data.Aura.ModifyManaRegen = {
+    [29166] = 4, -- Innervate
+    [12051] = 15, -- Evocation
+    [24705] = 0.25, -- Invocation of the Wickerman
+    [425124] = 3, -- Arcane Surge
+    [468466] = 15, -- Unmaking the Simulacrum
+    [18371] = 1, -- Soul Siphon
+    [456195] = 4, -- Innervate
+}
 Data.Aura.MP5 = {
     [430] = 42, -- drink
     [431] = 104, -- drink
