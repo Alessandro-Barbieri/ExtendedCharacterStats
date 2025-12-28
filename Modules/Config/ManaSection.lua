@@ -27,19 +27,6 @@ function _Config:LoadManaSection()
                     Stats.RebuildStatInfos()
                 end,
             },
-            mp5Items = {
-                type = "toggle",
-                order = 1,
-                name = function() return i18n("MP5 Items") end,
-                desc = function() return i18n("Shows/Hides the MP5 value from items.") end,
-                width = 1.5,
-                disabled = function() return (not ExtendedCharacterStats.profile.regen.display); end,
-                get = function () return ExtendedCharacterStats.profile.regen.mp5Items.display; end,
-                set = function (_, value)
-                    ExtendedCharacterStats.profile.regen.mp5Items.display = value
-                    Stats.RebuildStatInfos()
-                end,
-            },
             mp5Spirit = {
                 type = "toggle",
                 order = 2,
@@ -50,19 +37,6 @@ function _Config:LoadManaSection()
                 get = function () return ExtendedCharacterStats.profile.regen.mp5Spirit.display; end,
                 set = function (_, value)
                     ExtendedCharacterStats.profile.regen.mp5Spirit.display = value
-                    Stats.RebuildStatInfos()
-                end,
-            },
-            mp5Buffs = {
-                type = "toggle",
-                order = 3,
-                name = function() return i18n("MP5 Buffs") end,
-                desc = function() return i18n("Shows/Hides the MP5 value from buffs.") end,
-                width = 1.5,
-                disabled = function() return (not ExtendedCharacterStats.profile.regen.display); end,
-                get = function () return ExtendedCharacterStats.profile.regen.mp5Buffs.display; end,
-                set = function (_, value)
-                    ExtendedCharacterStats.profile.regen.mp5Buffs.display = value
                     Stats.RebuildStatInfos()
                 end,
             },
