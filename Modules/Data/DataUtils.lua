@@ -142,4 +142,25 @@ function DataUtils:GetSocketedGemsFromItemLink(itemLink)
     return nil
 end
 
+---@param index number
+---@param type string
+---@return number
+function DataUtils:GetValueFromAuraTooltip(index,type)
+    if not ECS.scanningTooltip then
+        ECS.scanningTooltip = CreateFrame("GameTooltip", "scanningTooltip", nil, "GameTooltipTemplate")
+        ECS.scanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+    end
+
+    ECS.scanningTooltip:ClearLines()
+    ECS.scanningTooltip:SetUnitAura("player",index, type)
+    local region = select(5,ECS.scanningTooltip:GetRegions())
+    if region and region:GetObjectType() == "FontString" then
+        local tooltip = region:GetText()
+        if tooltip then
+            return tonumber(string.match(tooltip, '%d[%d,.]*'))
+        end
+    end
+    return 0
+end
+
 return DataUtils

@@ -121,7 +121,7 @@ local itemSets = {
 }
 
 ---@return number
-function Data:GetSetBonusModifierMP5()
+function Data:GetSetBonusCastingModifierMP5()
     local mod = 0
     if (ECS.IsClassic and Data:IsSetBonusActive(setNames.GREEN_DRAGON_MAIL, 3)) then
         mod = mod + 0.15
@@ -181,6 +181,7 @@ function Data:GetSetBonusValueMP5()
     return bonus
 end
 
+---@return boolean
 function Data:HasNatureCritBonusModifier()
     if classId == Data.SHAMAN then
         return Data:IsSetBonusActive(setNames.TEN_STORMS, 5)
@@ -188,6 +189,7 @@ function Data:HasNatureCritBonusModifier()
     return false
 end
 
+---@return boolean
 function Data:IsSetBonusActive(setName, bonusLevel)
     local setItems = itemSets[setName]
     if (not setItems) then
