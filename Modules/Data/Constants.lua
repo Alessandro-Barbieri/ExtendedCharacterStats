@@ -367,7 +367,7 @@ Data.Aura = {
         [69634] = 0.05/2*5, -- Taste of Blood
         [71068] = 0.04*5, -- Food
         [71071] = 0.04*5, -- Food
-        [71073] = 0.04/*5, -- Food
+        [71073] = 0.04/5, -- Food
         [71953] = 0.03/3*5, -- Radiance Aura
         [74079] = 0.25*5, -- Elemental Blessing
         [74503] = 0.25*5, -- Surgeon General's Warding
@@ -494,7 +494,7 @@ Data.Enchant = {
         [3849] = 81, -- Titanium Plating
         [7633] = 15, -- Presence of Valor
     },
-    HealthRegen = {
+    CombatHealthRegen = {
         [2656] = 4, -- Enchant Boots - Vitality
         [3244] = 7, -- Enchant Boots - Greater Vitality
     },
@@ -602,4 +602,15 @@ Data.setNames = {
     THE_EARTHSHATTERER = "The Earthshatterer",
     VESTMENTS_OF_TRANSCENDENCE = "Vestments of Transcendence",
     WINDHAWK_ARMOR = "Windhawk Armor",
+}
+Data.SpiritToHP5Constants = {
+    [Data.DRUID] = {0.09, 6.5},
+    [Data.HUNTER] = {0.25, 6},
+    [Data.MAGE] = {0.10, 6},
+    [Data.PALADIN] = {0.25, 6},
+    [Data.PRIEST] = {0.10, 6},
+    [Data.ROGUE] = {0.50, 2},
+    [Data.SHAMAN] = {0.11, 7},
+    [Data.WARLOCK] = {0.07, 6},
+    [Data.WARRIOR] = {0.80, 6},
 }
