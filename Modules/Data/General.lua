@@ -30,6 +30,7 @@ function Data:GetHP5()
     local bonusHp5 = _HP5:GetMP5FromSpirit()
     local bonusCombatHp5 = 0
     local mod = 1
+    local talentMod = _HP5:GetDemonicAegisTalentModifier() + 1
     local combatModifier = 0
     local maxhealth = UnitHealthMax("player")
 
@@ -59,12 +60,13 @@ function Data:GetHP5()
     repeat
         local aura = C_UnitAuras.GetBuffDataByIndex("player", i)
         if aura and aura.spellId then
+            local DemonicAegis = (Data.IsFelOrDemonArmor[aura.spellId] and talentMod or 1)
             if aura.spellId == 2645 and C_SpellBook.IsSpellKnown(59289) then
                 bonusHp5 = bonusHp5 + 0.01 * 5 * maxhealth -- Glyph of Ghost Wolf
             end
             mod = mod + (Data.Aura.HealthRegenModifier[aura.spellId] or 0)
-            bonusHp5 = bonusHp5 + (Data.Aura.HealthRegen[aura.spellId] or 0)
-            bonusHp5 = bonusHp5 + (Data.Aura.PercentageHealthRegen[aura.spellId] or 0) * maxhealth
+            bonusHp5 = bonusHp5 + (Data.Aura.HealthRegen[aura.spellId] or 0) * DemonicAegis
+            bonusHp5 = bonusHp5 + (Data.Aura.PercentageHealthRegen[aura.spellId] or 0) * maxhealth * DemonicAegis
         end
         i = i + 1
     until (not aura)
@@ -95,4 +97,19 @@ function _HP5:GetHP5FromSpirit()
         hp5 = hp5 + c[2] * spirit / 50
     end
     return DataUtils:Round(hp5 * 5, 2)
+end
+
+---@return number
+function _HP5:GetDemonicAegisTalentModifier()
+    local mod = 0
+    if classId == Data.WARLOCK then
+        if C_SpellBook.IsSpellKnown(30145) then
+            mod = 0.3 -- Demonic Aegis Rank 3
+        elseif C_SpellBook.IsSpellKnown(30144) then
+            mod = 0.2 -- Demonic Aegis Rank 2
+        elseif C_SpellBook.IsSpellKnown(30143) then
+            mod = 0.1 -- Demonic Aegis Rank 1
+        end
+    end
+    return mod
 end

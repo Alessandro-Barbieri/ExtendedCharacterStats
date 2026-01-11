@@ -1744,6 +1744,7 @@ stds.ecs = {
         "KBSystem_GetServerNotice",
         "KBSystem_GetServerStatus",
         "LE_EXPANSION_BURNING_CRUSADE",
+        "LE_UNIT_STAT_SPIRIT",
         "LearnTalent",
         "LeaveBattlefield",
         "LeaveChannelByLocalID",
