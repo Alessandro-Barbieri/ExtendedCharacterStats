@@ -491,7 +491,7 @@ Data.Aura = {
         [25918] = (ECS.IsClassic and 1 or nil), -- Greater Blessing of Wisdom rank 2
     },
     SpellCrit = {
-        [24907] = ((ECS.IsTBC or ECS.IsWotlk) and 5 or nil), -- Moonkin Aura
+        [24907] = (ECS.IsClassic and nil or 5), -- Moonkin Aura
         [29177] = 6, -- Elemental Devastation Rank 2
         [29178] = 9, -- Elemental Devastation Rank 3
         [30165] = 3, -- Elemental Devastation Rank 1
