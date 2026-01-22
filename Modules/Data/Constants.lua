@@ -97,6 +97,24 @@ Data.Aura = {
         [49280] = true, -- Lightning Shield rank 10
         [49281] = true, -- Lightning Shield rank 11
     },
+    ModifyManaRegen = {
+        [5419] = (ECS.IsTbc and -0.11 or nil), -- Travel Form (Passive)
+        [5421] = (ECS.IsTbc and -0.11 or nil), -- Aquatic Form (Passive)
+        [12051] = (ECS.IsClassic and 15 or nil), -- Evocation
+        [18371] = (ECS.IsClassic and 1 or nil), -- Soul Siphon
+        [24705] = (ECS.IsClassic and 0.25 or nil), -- Invocation of the Wickerman
+        [29166] = (ECS.IsWotlk and nil or 4), -- Innervate
+        [33948] = (ECS.IsTbc and -0.11 or nil), -- Flight Form (Passive)
+        [34754] = (ECS.IsWotlk and 0.16 or nil), -- Holy Concentration Rank 1
+        [40121] = (ECS.IsTbc and -0.11 or nil), -- Swift Flight Form (Passive)
+        [49307] = 1, -- Full Mana Regen
+        [51623] = 5, -- Sholazar Guardian Heartbeat
+        [63724] = 0.32, -- Holy Concentration Rank 2
+        [63725] = 0.5, -- Holy Concentration Rank 3
+        [425124] = 3, -- Arcane Surge
+        [456195] = 4, -- Innervate
+        [468466] = 15, -- Unmaking the Simulacrum
+    },
     MP5 = {
         [430] = 42, -- drink
         [431] = 104, -- drink

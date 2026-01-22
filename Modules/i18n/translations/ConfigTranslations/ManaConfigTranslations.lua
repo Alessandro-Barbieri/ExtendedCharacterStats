@@ -22,46 +22,6 @@ local manaConfigTranslations = {
         ["esMX"] = "Muestra/oculta todas estadísticas de maná",
         ["ptBR"] = "Mostra/oculta todas as estatísticas de mana"
     },
-    ["MP5 Items"] = {
-        ["enUS"] = true,
-        ["deDE"] = "MP5 Gegenstände",
-        ["frFR"] = "MP5 (Objets)",
-        ["zhCN"] = "装备回蓝",
-        ["ruRU"] = "MP5 (экипировка)",
-        ["esES"] = "MP5 (Objetos)",
-        ["esMX"] = "MP5 (Objetos)",
-        ["ptBR"] = "MP5 (Itens)"
-    },
-    ["Shows/Hides the MP5 value from items."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Zeigt/Versteckt den MP5-Wert von Gegenständen.",
-        ["frFR"] = "Affiche/cache la valeur MP5 des objets.",
-        ["zhCN"] = "显示/隐藏 装备回蓝",
-        ["ruRU"] = "Показать/скрыть значение MP5 (восполнение маны каждые 5 сек вне боя) от экипировки",
-        ["esES"] = "Muestra/oculta el valor de MP5 de objetos",
-        ["esMX"] = "Muestra/oculta el valor de MP5 de objetos",
-        ["ptBR"] = "Mostra/oculta o valor de MP5 de itens"
-    },
-    ["MP5 Buffs"] = {
-        ["enUS"] = true,
-        ["deDE"] = "MP5 Stärkungszauber",
-        ["frFR"] = "MP5 (Amélioration)",
-        ["zhCN"] = "增益回蓝",
-        ["ruRU"] = "MP5 (баффы)",
-        ["esES"] = "MP5 (Beneficios)",
-        ["esMX"] = "MP5 (Beneficios)",
-        ["ptBR"] = "MP5 (Bônus)"
-    },
-    ["Shows/Hides the MP5 value from buffs."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Zeigt/Versteckt den MP5-Wert Stärkungszauber.",
-        ["frFR"] = "Affiche/cache la valeur MP5 de Amélioration.",
-        ["zhCN"] = "显示/隐藏 增益回蓝",
-        ["ruRU"] = "Показать/скрыть значение MP5 (восполнение маны каждые 5 сек вне боя) от баффов",
-        ["esES"] = "Muestra/oculta el valor de MP5 de beneficios",
-        ["esMX"] = "Muestra/oculta el valor de MP5 de beneficios",
-        ["ptBR"] = "Mostra/oculta o valor de MP5 de bônus"
-    },
     ["MP5 Spirit"] = {
         ["enUS"] = true,
         ["deDE"] = "MP5 Willenskraft",

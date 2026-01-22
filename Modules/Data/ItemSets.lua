@@ -121,7 +121,7 @@ local itemSets = {
 }
 
 ---@return number
-function Data:GetSetBonusModifierMP5()
+function Data:GetSetBonusCastingModifierMP5()
     local mod = 0
     if (ECS.IsClassic and Data:IsSetBonusActive(setNames.GREEN_DRAGON_MAIL, 3)) then
         mod = mod + 0.15

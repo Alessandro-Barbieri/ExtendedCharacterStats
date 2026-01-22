@@ -296,7 +296,7 @@ _CreateStatInfos = function()
     end
 
     category = profile.regen
-    _CreateStatInfo(category, category.mp5Items, category.mp5Spirit, category.mp5Buffs, category.mp5Casting, category.mp5NotCasting)
+    _CreateStatInfo(category, category.mp5Spirit, category.mp5Casting, category.mp5NotCasting)
 
     category = profile.spell
     local spellBonus = profile.spellBonus

@@ -296,24 +296,10 @@ local function GetDefaultStatsProfile()
             refName = "ManaHeader",
             text = "Mana",
 
-            mp5Items = {
-                display = true,
-                refName = "MP5Items",
-                text = "MP5 (Items)",
-                textColor = colors.MP5_SECONDARY,
-                statColor = colors.MP5_PRIMARY
-            },
             mp5Spirit = {
                 display = true,
                 refName = "MP5Spirit",
                 text = "MP5 (Spirit)",
-                textColor = colors.MP5_SECONDARY,
-                statColor = colors.MP5_PRIMARY
-            },
-            mp5Buffs = {
-                display = true,
-                refName = "MP5Buffs",
-                text = "MP5 (Buffs)",
                 textColor = colors.MP5_SECONDARY,
                 statColor = colors.MP5_PRIMARY
             },
