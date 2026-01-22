@@ -105,7 +105,7 @@ end
 ---@return number|nil
 function DataUtils:GetEnchantFromItemLink(itemLink)
     if itemLink then
-        local _, itemStringLink = GetItemInfo(itemLink)
+        local _, itemStringLink = C_Item.GetItemInfo(itemLink)
         if itemStringLink then
             local _, _, enchant = string.find(itemStringLink, "item:%d+:(%d*)")
             return tonumber(enchant)
@@ -129,10 +129,10 @@ function DataUtils.GetRuneForEquipSlot(equipSlot)
 end
 
 ---@param itemLink ItemLink
----@return (number, number, number) | nil
+---@return number | nil, number | nil, number | nil
 function DataUtils:GetSocketedGemsFromItemLink(itemLink)
     if itemLink then
-        local _, itemStringLink = GetItemInfo(itemLink)
+        local _, itemStringLink = C_Item.GetItemInfo(itemLink)
         if itemStringLink then
             local _, _, gem1, gem2, gem3 = string.find(itemStringLink, "item:%d*:%d*:(%d*):(%d*):(%d*)")
             return gem1, gem2, gem3
@@ -140,6 +140,41 @@ function DataUtils:GetSocketedGemsFromItemLink(itemLink)
     end
 
     return nil
+end
+
+---@return number
+function DataUtils:CountTimewornItems()
+    local timeworn = 0
+     if ECS.IsSoD then
+        for i = 1, 18 do
+            local id, _ = GetInventoryItemID("player", i)
+            if Data.Item.IsTimeworn[id] then
+                timeworn = timeworn + 1
+            end
+        end
+    end
+    return timeworn
+end
+
+---@param index number
+---@param type string
+---@return number
+function DataUtils:GetValueFromAuraTooltip(index,type)
+    if not ECS.scanningTooltip then
+        ECS.scanningTooltip = CreateFrame("GameTooltip", "scanningTooltip", nil, "GameTooltipTemplate")
+        ECS.scanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+    end
+
+    ECS.scanningTooltip:ClearLines()
+    ECS.scanningTooltip:SetUnitAura("player",index, type)
+    local region = select(5,ECS.scanningTooltip:GetRegions())
+    if region and region:GetObjectType() == "FontString" then
+        local tooltip = region:GetText()
+        if tooltip then
+            return tonumber(string.match(tooltip, '%d[%d,.]*'))
+        end
+    end
+    return 0
 end
 
 return DataUtils
