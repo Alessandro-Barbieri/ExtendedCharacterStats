@@ -565,6 +565,8 @@ stds.ecs = {
         "C_UnitAuras",
         "C_UnitAuras.GetAuraDataByIndex",
         "C_UnitAuras.GetBuffDataByIndex",
+        "C_UnitAuras.GetDebuffDataByIndex",
+        "C_UnitAuras.GetPlayerAuraBySpellID",
         "C_VideoOptions.GetGxAdapterInfo",
         "C_VoiceChat.ActivateChannel",
         "C_VoiceChat.BeginLocalCapture",
