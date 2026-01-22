@@ -212,7 +212,11 @@ _CreateStatInfos = function()
 
     category = profile.melee
     if ECS.IsClassic then
-        _CreateStatInfo(category, category.attackPower, category.crit)
+        if ECS.IsSod then
+            _CreateStatInfo(category, category.attackPower, category.crit, category.expertise, category.hasteBonus)
+        else
+            _CreateStatInfo(category, category.attackPower, category.crit, category.hasteBonus)
+        end
     else
         _CreateStatInfo(
             category,
