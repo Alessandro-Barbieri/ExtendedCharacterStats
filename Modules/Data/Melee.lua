@@ -1,4 +1,4 @@
----@type Data
+---@class Data
 local Data = ECSLoader:ImportModule("Data")
 ---@type DataUtils
 local DataUtils = ECSLoader:ImportModule("DataUtils")
@@ -8,19 +8,78 @@ local Utils = ECSLoader:ImportModule("Utils")
 local _Melee = {}
 local _, _, classId = UnitClass("player")
 
----@return string
+---@return number
 function Data:GetMeleeAttackPower()
     local melee, posBuff, negBuff = UnitAttackPower("player")
     return melee + posBuff + negBuff
 end
 
+---@param creature number
 ---@return string
+function Data:GetMeleeAttackPowerVsCreature(creature)
+    local dmg = 0
+    -- auras
+    local j = 1
+    repeat
+        local aura = C_UnitAuras.GetAuraDataByIndex("player", j, "HELPFUL")
+        j = j + 1
+        if aura and aura.spellId then
+            if creature == Data.UNDEAD then
+                dmg = dmg + (Data.buffsUndeadAttackPower[aura.spellId] or 0)
+            elseif creature == Data.DEMON then
+                if aura.spellId == 11406 then dmg = dmg + 265 end -- Elixir of Demonslaying
+            end
+        end
+    until (not aura)
+    for i = 1, 18 do
+        -- items
+        local id, _ = GetInventoryItemID("player", i)
+        if creature == Data.UNDEAD then
+            dmg = dmg + (Data.itemsUndeadSlaying[id] or 0)
+            dmg = dmg + (Data.itemsUndeadDeamonSlaying[id] or 0)
+        elseif creature == Data.DEMON then
+            dmg = dmg + (Data.itemsDemonSlaying[id] or 0)
+            dmg = dmg + (Data.itemsUndeadDeamonSlaying[id] or 0)
+        elseif creature == Data.DRAGONKIN then
+            dmg = dmg + (Data.itemsDragonSlaying[id] or 0)
+        elseif creature == Data.MECHANICAL then
+             if id == 213319 then dmg = dmg + 30 end -- Machinist's Gloves
+        end
+        -- enchants
+        local itemLink = GetInventoryItemLink("player", i)
+        if itemLink then
+            local enchant = DataUtils:GetEnchantFromItemLink(itemLink)
+            if enchant then
+                if creature == Data.UNDEAD then
+                    dmg = dmg + (Data.enchantsUndeadSlayer[enchant] or 0)
+                    if enchant and enchant == Data.enchantIds.UNDEAD_DEMON_SLAYER_150 then dmg = dmg + 150 end
+                elseif creature == Data.DEMON then
+                    if enchant and enchant == Data.enchantIds.UNDEAD_DEMON_SLAYER_150 then dmg = dmg + 150 end
+                elseif creature == Data.BEAST then
+                    dmg = dmg + (Data.enchantsBeastSlayer[enchant] or 0)
+                elseif creature == Data.ELEMENTAL then
+                    dmg = dmg + (Data.enchantsElementalSlayer[enchant] or 0)
+                    if enchant and enchant == Data.enchantIds.LESSER_ELEMENTAL_SLAYER then dmg = dmg + 6 end
+                end
+            end
+        end
+    end
+    -- sets
+    if creature == Data.UNDEAD then
+        if Data:HasUndeadSlayer15() then dmg = dmg + 15 end
+    elseif creature == Data.DEMON then
+        if Data:HasDemonSlaying200() then dmg = dmg + 200 end
+    end
+    return dmg
+end
+
+---@return number
 function Data:GetMeleeAttackSpeedMainHand()
     local mainHand, _ = UnitAttackSpeed("player")
     return DataUtils:Round(mainHand, 2)
 end
 
----@return string
+---@return number
 function Data:GetMeleeAttackSpeedOffHand()
     local _, offHand = UnitAttackSpeed("player")
     return DataUtils:Round(offHand, 2)
@@ -50,6 +109,7 @@ function _Melee:GetHitRatingBonus()
     return (GetHitModifier() or 0) + _Melee.GetHitFromRunes()
 end
 
+---@return number
 function _Melee:GetHitTalentBonus()
     local mod = 0
 
@@ -94,6 +154,7 @@ function _Melee:GetHitTalentBonus()
     return mod
 end
 
+---@return number
 function _Melee:GetHitFromBuffs()
     local mod = 0
     local otherDraeneiInGroup = false
@@ -111,13 +172,14 @@ function _Melee:GetHitFromBuffs()
         end
     until (not aura)
 
-    if (not otherDraeneiInGroup) and (IsSpellKnown(6562) or IsSpellKnown(28878)) then
+    if (not otherDraeneiInGroup) and (C_SpellBook.IsSpellKnown(6562) or C_SpellBook.IsSpellKnown(28878)) then
         mod = mod + 1
     end
 
     return mod
 end
 
+---@return number
 function _Melee.GetHitFromRunes()
     local mod = 0
 
@@ -212,10 +274,12 @@ function Data:GlanceHitChanceByLevel(level)
     return DataUtils:Round(glancingChance*100, 2) .. "%"
 end
 
+---@return string
 function Data:GlanceDamageSameLevel()
     return Data:GlanceDamageByLevel(0)
 end
 
+---@return string
 function Data:GlanceDamageBossLevel()
     return Data:GlanceDamageByLevel(3)
 end
@@ -287,7 +351,7 @@ function Data:GetArmorPenetration()
     return DataUtils:Round(armorPenetration, 2) .. "%"
 end
 
----@return string
+---@return number
 function Data:GetArmorPenetrationRating()
     local armorPenetrationRating = GetCombatRating(CR_ARMOR_PENETRATION)
     return DataUtils:Round(armorPenetrationRating, 0)

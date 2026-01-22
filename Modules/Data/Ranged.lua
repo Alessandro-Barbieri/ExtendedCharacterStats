@@ -1,4 +1,4 @@
----@type Data
+---@class Data
 local Data = ECSLoader:ImportModule("Data")
 ---@type Utils
 local Utils = ECSLoader:ImportModule("Utils")
@@ -9,7 +9,7 @@ local _Ranged = {}
 
 local _, _, classId = UnitClass("player")
 
----@return string
+---@return number
 function Data:GetRangeAttackPower()
     if not _Ranged:IsRangeAttackClass() then
         return 0
@@ -18,6 +18,66 @@ function Data:GetRangeAttackPower()
     local melee, posBuff, negBuff = UnitRangedAttackPower("player")
     return melee + posBuff + negBuff
 end
+
+---@param creature number
+---@return string
+function Data:GetRangedAttackPowerVsCreature(creature)
+    local dmg = 0
+    -- auras
+    local j = 1
+    repeat
+        local aura = C_UnitAuras.GetAuraDataByIndex("player", j, "HELPFUL")
+        j = j + 1
+        if aura and aura.spellId then
+            if creature == Data.UNDEAD then
+                if aura.spellId == 58026 then dmg = dmg + 12000 end -- Blessing of the Crusade
+            elseif creature == Data.DEMON then
+                if aura.spellId == 11406 then dmg = dmg + 265 end -- Elixir of Demonslaying
+            end
+        end
+    until (not aura)
+    for i = 1, 18 do
+        -- items
+        local id, _ = GetInventoryItemID("player", i)
+        if creature == Data.UNDEAD then
+            dmg = dmg + (Data.itemsUndeadSlaying[id] or 0)
+            dmg = dmg + (Data.itemsUndeadDeamonSlaying[id] or 0)
+        elseif creature == Data.DEMON then
+            dmg = dmg + (Data.itemsDemonSlaying[id] or 0)
+            dmg = dmg + (Data.itemsUndeadDeamonSlaying[id] or 0)
+        elseif creature == Data.DRAGONKIN then
+            dmg = dmg + (Data.itemsDragonSlaying[id] or 0)
+        elseif creature == Data.MECHANICAL then
+             if id == 213319 then dmg = dmg + 30 end -- Machinist's Gloves
+        end
+        -- enchants
+        local itemLink = GetInventoryItemLink("player", i)
+        if itemLink then
+            local enchant = DataUtils:GetEnchantFromItemLink(itemLink)
+            if enchant then
+                if creature == Data.UNDEAD then
+                    dmg = dmg + (Data.enchantsUndeadSlayer[enchant] or 0)
+                    if enchant and enchant == Data.enchantIds.UNDEAD_DEMON_SLAYER_150 then dmg = dmg + 150 end
+                elseif creature == Data.DEMON then
+                    if enchant and enchant == Data.enchantIds.UNDEAD_DEMON_SLAYER_150 then dmg = dmg + 150 end
+                elseif creature == Data.BEAST then
+                    dmg = dmg + (Data.enchantsBeastSlayer[enchant] or 0)
+                elseif creature == Data.ELEMENTAL then
+                    dmg = dmg + (Data.enchantsElementalSlayer[enchant] or 0)
+                    if enchant and enchant == Data.enchantIds.LESSER_ELEMENTAL_SLAYER then dmg = dmg + 6 end
+                end
+            end
+        end
+    end
+    -- sets
+    if creature == Data.UNDEAD then
+        if Data:HasUndeadSlayer15() then dmg = dmg + 15 end
+    elseif creature == Data.DEMON then
+        if Data:HasDemonSlaying200() then dmg = dmg + 200 end
+    end
+    return dmg
+end
+
 
 ---@return boolean
 function _Ranged:IsRangeAttackClass()
@@ -36,7 +96,7 @@ function Data:GetRangedHasteBonus()
     return DataUtils:Round(hasteBonus, 2) .. "%"
 end
 
----@return string
+---@return number
 function Data:GetRangedAttackSpeed()
     local speed, _ = UnitRangedDamage("player")
     return DataUtils:Round(speed, 2)
@@ -77,12 +137,13 @@ function _Ranged:GetHitBonus()
     end
 
     if hitFromItems then -- This needs to be checked because on dungeon entering it becomes nil
-        hitValue = hitValue + hitFromItems + _Ranged:GetHitTalentBonus()
+        hitValue = hitValue + hitFromItems + _Ranged:GetHitTalentBonus() + _Ranged:GetHitFromBuffs()
     end
 
     return hitValue
 end
 
+---@return number
 function _Ranged:GetHitTalentBonus()
     local bonus = 0
 
@@ -92,6 +153,17 @@ function _Ranged:GetHitTalentBonus()
     end
 
     return bonus
+end
+
+---@return number
+function _Ranged:GetHitFromBuffs()
+    local mod = 0
+    if C_UnitAuras.GetPlayerAuraBySpellID(6562) or C_SpellBook.IsSpellKnown(6562) or ( -- Heroic Presence
+        (C_SpellBook.IsSpellKnown(28878) or C_UnitAuras.GetPlayerAuraBySpellID(28878)) and ECS.IsWotlk -- Inspiring Presence
+    ) then
+        mod = mod + 1
+    end
+    return mod
 end
 
 ---@return string

@@ -1,4 +1,4 @@
----@type Data
+---@class Data
 local Data = ECSLoader:ImportModule("Data")
 
 local _, _, classId = UnitClass("player")
@@ -28,7 +28,15 @@ local itemSets = {
         [236039] = true,
         [236040] = true
     },
-    [setNames.DAWN_OF_TRANSCENDENCE] = {
+    [setNames.CHAIN_OF_THE_SCARLET_CRUSADE] = {
+        [10328] = true,
+        [10329] = true,
+        [10330] = true,
+        [10331] = true,
+        [10332] = true,
+        [10333] = true
+    },
+  [setNames.DAWN_OF_TRANSCENDENCE] = {
         [231155] = true,
         [231156] = true,
         [231157] = true,
@@ -77,6 +85,11 @@ local itemSets = {
         [15045] = true,
         [15046] = true,
         [20296] = true,
+    },
+    [setNames.LIVING_GREEN_DRAGON_MAIL] = {
+        [227877] = true,
+        [227878] = true,
+        [227879] = true,
     },
     [setNames.HARUSPEXS_GARB] = {
         [19613] = true,
@@ -164,6 +177,10 @@ local itemSets = {
         [236168] = true,
         [236169] = true
     },
+    [setNames.THE_TWIN_BLADES_OF_AZZINOTH] = {
+        [32837] = true,
+        [32838] = true
+    },
     [setNames.VESTMENTS_OF_TRANSCENDENCE] = {
         [16919] = true,
         [16920] = true,
@@ -204,7 +221,7 @@ function Data:HasSetBonusIncreasedExpertise5()
 end
 
 ---@return number
-function Data:GetSetBonusModifierMP5()
+function Data:GetSetBonusCastingModifierMP5()
     local mod = 0
     if (ECS.IsClassic and Data:IsSetBonusActive(setNames.GREEN_DRAGON_MAIL, 3)) then
         mod = mod + 0.15
@@ -215,16 +232,29 @@ function Data:GetSetBonusModifierMP5()
     )) then
         mod = mod + 0.15
     end
-    if (ECS.IsSod and Data:IsSetBonusActive(setNames.LIVING_GREEN_DRAGON_MAIL, 3)) then
+    if (ECS.IsSoD and Data:IsSetBonusActive(setNames.LIVING_GREEN_DRAGON_MAIL, 3)) then
         mod = mod + 0.15
     end
-    if (ECS.IsSod and Data:IsSetBonusActive(setNames.DAWN_OF_TRANSCENDENCE, 2)) then
+    if (ECS.IsSoD and Data:IsSetBonusActive(setNames.DAWN_OF_TRANSCENDENCE, 2)) then
         mod = mod + 0.15
     end
     if Data:IsSetBonusActive(setNames.PRIMAL_MOONCLOTH, 3) then
         mod = mod + 0.05
     end
     return mod
+end
+
+---@return bool
+function Data:HasDemonSlaying200()
+    if classId == Data.ROGUE or classId == Data.WARRIOR then
+        return Data:IsSetBonusActive(setNames.THE_TWIN_BLADES_OF_AZZINOTH, 2)
+    end
+    return false
+end
+
+---@return bool
+function Data:HasUndeadSlayer15()
+    return Data:IsSetBonusActive(setNames.CHAIN_OF_THE_SCARLET_CRUSADE, 5)
 end
 
 ---@return number
@@ -236,7 +266,7 @@ function Data:GetSetBonusValueMP5()
     ) then
         bonus = bonus + (ECS.IsWotlk and 5 or 4)
     end
-    if (ECS.IsSod and Data:IsSetBonusActive(setNames.LIVING_GREEN_DRAGON_MAIL, 2)) then
+    if (ECS.IsSoD and Data:IsSetBonusActive(setNames.LIVING_GREEN_DRAGON_MAIL, 2)) then
         bonus = bonus + 3
     end
     if Data:IsSetBonusActive(setNames.GREEN_DRAGON_MAIL, 2) then
@@ -264,6 +294,7 @@ function Data:GetSetBonusValueMP5()
     return bonus
 end
 
+---@return boolean
 function Data:HasNatureCritBonusModifier()
     if classId == Data.SHAMAN then
         return Data:IsSetBonusActive(setNames.TEN_STORMS, 5)
@@ -271,6 +302,9 @@ function Data:HasNatureCritBonusModifier()
     return false
 end
 
+---@param setName string
+---@param bonusLevel number
+---@return boolean
 function Data:IsSetBonusActive(setName, bonusLevel)
     local setItems = itemSets[setName]
     if (not setItems) then

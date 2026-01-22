@@ -1,4 +1,4 @@
----@type Config
+---@class Config
 local Config = ECSLoader:ImportModule("Config")
 local _Config = Config.private
 
@@ -59,9 +59,6 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Armor Pen.") end,
                 desc = function() return i18n("Shows/Hides the armor penetration value.") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsWotlk)
-                end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.penetration.display; end,
                 set = function (_, value)
@@ -75,9 +72,7 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Armor Pen. Rating") end,
                 desc = function() return i18n("Shows/Hides the armor penetration rating value.") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsWotlk)
-                end,
+                hidden = function() return ECS.IsClassic end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.penetrationRating.display; end,
                 set = function (_, value)
@@ -107,9 +102,7 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Expertise Rating") end,
                 desc = function() return i18n("Shows/Hides the expertise rating.") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsWotlk)
-                end,
+                hidden = function() return ECS.IsClassic end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.expertiseRating.display; end,
                 set = function (_, value)
@@ -123,9 +116,7 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Haste Rating") end,
                 desc = function() return i18n("Shows/Hides the melee haste rating.") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsWotlk)
-                end,
+                hidden = function() return ECS.IsClassic end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.hasteRating.display; end,
                 set = function (_, value)
@@ -139,9 +130,6 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Haste Bonus") end,
                 desc = function() return i18n("Shows/Hides the melee haste bonus value.") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsWotlk)
-                end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.hasteBonus.display; end,
                 set = function (_, value)
@@ -174,9 +162,7 @@ function _Config:LoadMeleeSection()
                         name = function() return i18n("Hit Rating") end,
                         desc = function() return i18n("Shows/Hides the melee hit rating.") end,
                         width = 1.5,
-                        hidden = function()
-                            return (not ECS.IsWotlk)
-                        end,
+                        hidden = function() return ECS.IsClassic end,
                         disabled = function()
                             return ((not ExtendedCharacterStats.profile.melee.display) or
                                     (not ExtendedCharacterStats.profile.melee.hit.display))
@@ -243,9 +229,7 @@ function _Config:LoadMeleeSection()
                 name = function() return i18n("Glancing Blow") end,
                 desc = function() return i18n("Shows/Hides all glancing blow stats") end,
                 width = 1.5,
-                hidden = function()
-                    return (not ECS.IsClassic)
-                end,
+                hidden = function() return ECS.IsWotlk end,
                 disabled = function() return (not ExtendedCharacterStats.profile.melee.display); end,
                 get = function () return ExtendedCharacterStats.profile.melee.glance.display; end,
                 set = function (_, value)
@@ -258,9 +242,7 @@ function _Config:LoadMeleeSection()
                 order = 6,
                 inline = true,
                 name = function() return i18n("Melee Glance Values") end,
-                hidden = function()
-                    return (not ECS.IsClassic)
-                end,
+                hidden = function() return ECS.IsWotlk end,
                 args = {
                     meleeGlance = {
                         type = "toggle",
@@ -322,7 +304,7 @@ function _Config:LoadMeleeSection()
                         end,
                         get = function () return ExtendedCharacterStats.profile.melee.glance.damageBossLevel.display; end,
                         set = function (_, value)
-                            ExtendedCharacterStats.profile.melee.glance.damageSameLevel.display = value
+                            ExtendedCharacterStats.profile.melee.glance.damageBossLevel.display = value
                             Stats.RebuildStatInfos()
                         end,
                     },
