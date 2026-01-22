@@ -1,4 +1,4 @@
----@type Data
+---@class Data
 local Data = ECSLoader:ImportModule("Data")
 ---@type DataUtils
 local DataUtils = ECSLoader:ImportModule("DataUtils")
@@ -178,6 +178,7 @@ function _SpellHit:GetSpellHitBonus(school)
     return hit + (GetSpellHitModifier() or 0)
 end
 
+---@return number
 function _SpellHit:GetSpellHitFromBuffs()
     local mod = 0
 

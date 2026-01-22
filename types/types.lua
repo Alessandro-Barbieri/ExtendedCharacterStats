@@ -1,22 +1,26 @@
 ---@meta
 
+---@class Category
+---@field display boolean
+---@field refName string
+---@field text string
+
+---@class Config
+---@field private table
+
+---@class Stats
+---@field private table
+
 ---@class StatsEntry
 ---@field display boolean
 ---@field refName string
 ---@field text string
----@field isTbcOnly? true
 ---@field textColor Color
 ---@field statColor Color
-
 
 ---@class SubCategory
 ---@field display boolean
 ---@field isSubGroup boolean
----@field refName string
----@field text string
-
----@class Category
----@field display boolean
 ---@field refName string
 ---@field text string
 

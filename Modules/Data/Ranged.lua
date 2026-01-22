@@ -1,4 +1,4 @@
----@type Data
+---@class Data
 local Data = ECSLoader:ImportModule("Data")
 ---@type Utils
 local Utils = ECSLoader:ImportModule("Utils")
@@ -9,7 +9,7 @@ local _Ranged = {}
 
 local _, _, classId = UnitClass("player")
 
----@return string
+---@return number
 function Data:GetRangeAttackPower()
     if not _Ranged:IsRangeAttackClass() then
         return 0
@@ -36,7 +36,7 @@ function Data:GetRangedHasteBonus()
     return DataUtils:Round(hasteBonus, 2) .. "%"
 end
 
----@return string
+---@return number
 function Data:GetRangedAttackSpeed()
     local speed, _ = UnitRangedDamage("player")
     return DataUtils:Round(speed, 2)
@@ -77,12 +77,13 @@ function _Ranged:GetHitBonus()
     end
 
     if hitFromItems then -- This needs to be checked because on dungeon entering it becomes nil
-        hitValue = hitValue + hitFromItems + _Ranged:GetHitTalentBonus()
+        hitValue = hitValue + hitFromItems + _Ranged:GetHitTalentBonus() + _Ranged:GetHitFromBuffs()
     end
 
     return hitValue
 end
 
+---@return number
 function _Ranged:GetHitTalentBonus()
     local bonus = 0
 
@@ -92,6 +93,17 @@ function _Ranged:GetHitTalentBonus()
     end
 
     return bonus
+end
+
+---@return number
+function _Ranged:GetHitFromBuffs()
+    local mod = 0
+    if C_UnitAuras.GetPlayerAuraBySpellID(6562) or C_SpellBook.IsSpellKnown(6562) or ( -- Heroic Presence
+        (C_SpellBook.IsSpellKnown(28878) or C_UnitAuras.GetPlayerAuraBySpellID(28878)) and ECS.IsWotlk -- Inspiring Presence
+    ) then
+        mod = mod + 1
+    end
+    return mod
 end
 
 ---@return string
