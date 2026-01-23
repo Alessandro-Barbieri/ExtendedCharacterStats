@@ -105,9 +105,9 @@ end
 ---@return number|nil
 function DataUtils:GetEnchantFromItemLink(itemLink)
     if itemLink then
-        local _, itemStringLink = GetItemInfo(itemLink)
+        local _, itemStringLink = C_Item.GetItemInfo(itemLink)
         if itemStringLink then
-            local _, _, enchant = string.find(itemStringLink, "item:%d+:(%d*)")
+            local _, _, enchant, _ = strsplit(":", itemStringLink, 4)
             return tonumber(enchant)
         end
     end
@@ -129,17 +129,52 @@ function DataUtils.GetRuneForEquipSlot(equipSlot)
 end
 
 ---@param itemLink ItemLink
----@return number | nil, number | nil, number | nil
+---@return string | nil, string | nil, string | nil
 function DataUtils:GetSocketedGemsFromItemLink(itemLink)
     if itemLink then
-        local _, itemStringLink = GetItemInfo(itemLink)
+        local _, itemStringLink = C_Item.GetItemInfo(itemLink)
         if itemStringLink then
-            local _, _, gem1, gem2, gem3 = string.find(itemStringLink, "item:%d*:%d*:(%d*):(%d*):(%d*)")
+            local _, _, gem1, gem2, gem3, _ = strsplit(":", itemStringLink, 6)
             return gem1, gem2, gem3
         end
     end
 
     return nil
+end
+
+---@return number
+function DataUtils:CountTimewornItems()
+    local timeworn = 0
+     if ECS.IsSoD then
+        for i = 1, 18 do
+            local id, _ = GetInventoryItemID("player", i)
+            if Data.Item.IsTimeworn[id] then
+                timeworn = timeworn + 1
+            end
+        end
+    end
+    return timeworn
+end
+
+---@param index number
+---@param type string
+---@return number
+function DataUtils:GetValueFromAuraTooltip(index,type)
+    if not ECS.scanningTooltip then
+        ECS.scanningTooltip = CreateFrame("GameTooltip", "scanningTooltip", nil, "GameTooltipTemplate")
+        ECS.scanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+    end
+
+    ECS.scanningTooltip:ClearLines()
+    ECS.scanningTooltip:SetUnitAura("player",index, type)
+    local region = select(5,ECS.scanningTooltip:GetRegions())
+    if region and region:GetObjectType() == "FontString" then
+        local tooltip = region:GetText()
+        if tooltip then
+            return tonumber(string.match(tooltip, '%d[%d,.]*'))
+        end
+    end
+    return 0
 end
 
 return DataUtils
