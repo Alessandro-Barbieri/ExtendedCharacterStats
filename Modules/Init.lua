@@ -100,16 +100,16 @@ function _Init.RegisterEvents(eventFrame)
     eventFrame:RegisterUnitEvent("UNIT_RANGEDDAMAGE", "player")
     eventFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 
-    if (C_EventUtils.IsEventValid("SOCKET_INFO_SUCCESS")) then
-        eventFrame:RegisterEvent("SOCKET_INFO_SUCCESS") -- Triggers whenever the player successfully sockets an item
-    end
-    if ECS.IsWotlk then
+    if GearManagerDialog then
         GearManagerDialog:HookScript("OnShow", function()
             Stats:HideWindow()
         end)
         GearManagerDialog:HookScript("OnHide", function()
             Stats:ShowWindow()
         end)
+    end
+    if (C_EventUtils.IsEventValid("SOCKET_INFO_SUCCESS")) then
+        eventFrame:RegisterEvent("SOCKET_INFO_SUCCESS") -- Triggers whenever the player successfully sockets an item
     end
     if (C_EventUtils.IsEventValid("GLYPH_ADDED")) then
         eventFrame:RegisterEvent("GLYPH_ADDED")
