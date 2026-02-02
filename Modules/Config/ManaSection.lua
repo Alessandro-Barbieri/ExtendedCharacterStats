@@ -21,7 +21,7 @@ function _Config:LoadManaSection()
                 name = function() return i18n("Show Mana Stats") end,
                 desc = function() return i18n("Shows/Hides all mana stats.") end,
                 width = 1.5,
-                hidden = function() return not UnitHasMana("player") end
+                hidden = function() return not UnitHasMana("player") end,
                 get = function () return ExtendedCharacterStats.profile.regen.display; end,
                 set = function (_, value)
                     ExtendedCharacterStats.profile.regen.display = value
