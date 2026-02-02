@@ -35,7 +35,7 @@ function _Config:LoadManaSection()
                 desc = function() return i18n("Shows/Hides the MP5 value from items.") end,
                 width = 1.5,
                 hidden = function() return not UnitHasMana("player") end,
-               disabled = function() return (not ExtendedCharacterStats.profile.regen.display); end,
+                disabled = function() return (not ExtendedCharacterStats.profile.regen.display); end,
                 get = function () return ExtendedCharacterStats.profile.regen.mp5Items.display; end,
                 set = function (_, value)
                     ExtendedCharacterStats.profile.regen.mp5Items.display = value
