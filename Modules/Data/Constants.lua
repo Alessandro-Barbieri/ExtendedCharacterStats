@@ -1,3 +1,6 @@
+local IsClassic = ECS.IsClassic
+local IsWotlk = ECS.IsWotlk
+
 ---@class Data
 local Data = ECSLoader:ImportModule("Data")
 
@@ -21,6 +24,69 @@ Data.WARLOCK = 9
 Data.DRUID = 11
 
 Data.Aura = {
+    DetectStealth = {
+        [20600] = 50, -- Perception
+        [19480] = 30, -- Paranoia
+        [19885] = 30, -- Track Hidden
+        [12608] = 10, -- Stealth Detection
+        [423481] = 6, -- Minor Stealth Detection
+        [21403] = 35, -- Ryson's All Seeing Eye
+    },
+    DetectInvisibility = {
+        [1] = {
+            [23197] = 1000, -- Copy of Visions of the Past
+            [445181] = 10000, -- Murky Sapta Sight
+            [446581] = 10000, -- Murky Sapta Sight
+            [8898] = 10000, -- Sapta Sight
+            [9735] = 10000, -- Sapta Sight
+            [446582] = 10000, -- Murky Sapta Sight
+            [8202] = 10000, -- Sapta Sight
+            [8899] = 10000, -- Sapta Sight
+            [8900] = 10000, -- Sapta Sight
+            [446580] = 10000, -- Murky Sapta Sight
+        },
+        [5] ={
+            [27616] = 1000, -- Extra-Dimensional Ghost Revealer
+        },
+        [4] = {
+            [1226396] = 501, -- Apple Scope
+            [17623] = 1000, -- Visions of the Past
+            [23101] = 1000, -- Eye of Divinity
+        },
+        [10] = {
+            [417803] = 2001, -- Emberglow Vision
+            [417463] = 2001, -- Near Death Experience
+            [426019] = 101, -- Marshroom
+            [370066] = 1001, -- Visions of Madness
+            [370767] = 1001, -- Essence of C'Thun
+        },
+        [2] = {
+            [424472] = 2001, -- Near Death Experience
+            [24306] = 10000, -- Delusions of Jin'do
+        },
+        [18] = {
+            [370832] = 1001, -- Gift of the Spider
+            [423435] = -99, -- Tim's Test Invis Detection
+        },
+        [7] = {
+            [1221136] = 101, -- Torment's Illusion
+        },
+        [28] = {
+            [17623] = (IsClassic and 1000 or nil), -- Visions of the Past
+        },
+        [0] = {
+            [2970] = 200, -- Detect Invisibility
+            [132] = (IsClassic and 100 or 1000), -- Detect Lesser Invisibility
+            [6512] = 100, -- Detect Lesser Invisibility
+            [11743] = 300, -- Detect Greater Invisibility
+            [9587] = 200, -- Magic Potion
+            [7967] = 100000, -- Naralex's Nightmare
+            [11649] = 200, -- Detect Invisibility
+            [16712] = 100000, -- Special Brew
+            [16882] = 300, -- Detect Greater Invisibility
+            [9436] = 100000, -- Invisibility Detection
+        },
+    },
     AllowCastingManaRegeneration = {
         [6117] = (ECS.IsWotlk and 0.5 or 0.3), -- Mage Armor rank 1
         [12051] = 1, -- Evocation
@@ -521,6 +587,17 @@ Data.Gem = {
     },
 }
 Data.Item = {
+    DetectStealth = {
+        [10501] = (IsWotlk and 3 or 18), -- Catseye Ultra Goggles
+        [16555] = (IsWotlk and 1 or 10), -- General's Dragonhide Gloves
+        [16448] = (IsWotlk and 1 or 10), -- Marshal's Dragonhide Gauntlets
+        [16496] = (IsWotlk and 1 or 10), -- Blood Guard's Dragonhide Gauntlets
+        [22863] = (IsWotlk and 1 or 10), -- Blood Guard's Dragonhide Grips
+        [16397] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Gloves
+        [23280] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Grips
+        [19998] = (IsWotlk and 1 or 10), -- Bloodvine Lens
+        [31333] = (IsWotlk and 1 or 10), -- The Night Watchman
+    },
     IsTimeworn = {
         [233496] = true,
         [233505] = true,
@@ -784,6 +861,11 @@ Data.Item = {
         [234024] = 2,
         [234028] = 2,
         [234032] = 2,
+    },
+}
+Data.Talent ={
+    [Data.ROGUE] = {
+        HEIGHTENED_SENSES = {30894,30895},
     },
 }
 Data.setNames = {
