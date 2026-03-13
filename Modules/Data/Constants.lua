@@ -1,5 +1,7 @@
+-- keep-sorted start
 local IsClassic = ECS.IsClassic
 local IsWotlk = ECS.IsWotlk
+-- keep-sorted end
 
 ---@class Data
 local Data = ECSLoader:ImportModule("Data")
@@ -24,69 +26,7 @@ Data.WARLOCK = 9
 Data.DRUID = 11
 
 Data.Aura = {
-    DetectStealth = {
-        [20600] = 50, -- Perception
-        [19480] = 30, -- Paranoia
-        [19885] = 30, -- Track Hidden
-        [12608] = 10, -- Stealth Detection
-        [423481] = 6, -- Minor Stealth Detection
-        [21403] = 35, -- Ryson's All Seeing Eye
-    },
-    DetectInvisibility = {
-        [1] = {
-            [23197] = 1000, -- Copy of Visions of the Past
-            [445181] = 10000, -- Murky Sapta Sight
-            [446581] = 10000, -- Murky Sapta Sight
-            [8898] = 10000, -- Sapta Sight
-            [9735] = 10000, -- Sapta Sight
-            [446582] = 10000, -- Murky Sapta Sight
-            [8202] = 10000, -- Sapta Sight
-            [8899] = 10000, -- Sapta Sight
-            [8900] = 10000, -- Sapta Sight
-            [446580] = 10000, -- Murky Sapta Sight
-        },
-        [5] ={
-            [27616] = 1000, -- Extra-Dimensional Ghost Revealer
-        },
-        [4] = {
-            [1226396] = 501, -- Apple Scope
-            [17623] = 1000, -- Visions of the Past
-            [23101] = 1000, -- Eye of Divinity
-        },
-        [10] = {
-            [417803] = 2001, -- Emberglow Vision
-            [417463] = 2001, -- Near Death Experience
-            [426019] = 101, -- Marshroom
-            [370066] = 1001, -- Visions of Madness
-            [370767] = 1001, -- Essence of C'Thun
-        },
-        [2] = {
-            [424472] = 2001, -- Near Death Experience
-            [24306] = 10000, -- Delusions of Jin'do
-        },
-        [18] = {
-            [370832] = 1001, -- Gift of the Spider
-            [423435] = -99, -- Tim's Test Invis Detection
-        },
-        [7] = {
-            [1221136] = 101, -- Torment's Illusion
-        },
-        [28] = {
-            [17623] = (IsClassic and 1000 or nil), -- Visions of the Past
-        },
-        [0] = {
-            [2970] = 200, -- Detect Invisibility
-            [132] = (IsClassic and 100 or 1000), -- Detect Lesser Invisibility
-            [6512] = 100, -- Detect Lesser Invisibility
-            [11743] = 300, -- Detect Greater Invisibility
-            [9587] = 200, -- Magic Potion
-            [7967] = 100000, -- Naralex's Nightmare
-            [11649] = 200, -- Detect Invisibility
-            [16712] = 100000, -- Special Brew
-            [16882] = 300, -- Detect Greater Invisibility
-            [9436] = 100000, -- Invisibility Detection
-        },
-    },
+    -- keep-sorted start block=yes
     AllowCastingManaRegeneration = {
         [6117] = (ECS.IsWotlk and 0.5 or 0.3), -- Mage Armor rank 1
         [12051] = 1, -- Evocation
@@ -145,6 +85,181 @@ Data.Aura = {
         [17800] = (ECS.IsWotlk and -5 or nil), -- Shadow Mastery 5/5
         [22959] = (ECS.IsWotlk and -5 or nil), -- Improved Scorch
     },
+    DetectInvisibility = {
+        -- keep-sorted start numeric=yes block=yes
+        [0] = {
+            -- keep-sorted start numeric=yes
+            [132] = (IsClassic and 100 or 1000), -- Detect Lesser Invisibility
+            [2970] = 200, -- Detect Invisibility
+            [6512] = 100, -- Detect Lesser Invisibility
+            [7967] = 100000, -- Naralex's Nightmare
+            [9436] = 100000, -- Invisibility Detection
+            [9587] = 200, -- Magic Potion
+            [11649] = 200, -- Detect Invisibility
+            [11743] = 300, -- Detect Greater Invisibility
+            [16712] = 100000, -- Special Brew
+            [16882] = 300, -- Detect Greater Invisibility
+            [32612] = 1000, -- Invisibility
+            [34709] = 9999, -- Shadow Sight
+            [38168] = 1000, -- Spiritual Sight
+            [38438] = 300, -- Echoes of Memory
+            [46021] = 100000, -- Spectral Realm
+            [49399] = 100, -- Skeleton Invis
+            [50425] = 1000, -- Diluted Ethereum Essence
+            [50700] = 100000, -- Copy of Spectral Realm (Test)
+            [65393] = 1000, -- Flowers of the Dead
+            -- keep-sorted end
+        },
+        [1] = {
+            -- keep-sorted start numeric=yes
+            [8202] = 10000, -- Sapta Sight
+            [8898] = 10000, -- Sapta Sight
+            [8899] = 10000, -- Sapta Sight
+            [8900] = 10000, -- Sapta Sight
+            [9735] = 10000, -- Sapta Sight
+            [23197] = 1000, -- Copy of Visions of the Past
+            [33019] = 10000, -- Sapta Sight
+            [73251] = 10000, -- Sapta Sight
+            [73323] = 10000, -- Sapta Sight
+            [445181] = 10000, -- Murky Sapta Sight
+            [446580] = 10000, -- Murky Sapta Sight
+            [446581] = 10000, -- Murky Sapta Sight
+            [446582] = 10000, -- Murky Sapta Sight
+            -- keep-sorted end
+        },
+        [2] = {
+            -- keep-sorted start numeric=yes
+            [24306] = 10000, -- Delusions of Jin'do
+            [424472] = 2001, -- Near Death Experience
+            -- keep-sorted end
+        },
+        [4] = {
+            -- keep-sorted start numeric=yes
+            [17623] = 1000, -- Visions of the Past
+            [23101] = 1000, -- Eye of Divinity
+            [43411] = 1000, -- Shooting Gallery!
+            [43469] = 1000, -- Shooting Gallery!
+            [43470] = 1000, -- Shooting Gallery!
+            [43471] = 1000, -- Shooting Gallery!
+            [44036] = 1000, -- Fade
+            [49962] = 1, -- Jungle Madness!
+            [1226396] = 501, -- Apple Scope
+            -- keep-sorted end
+        },
+        [5] = {
+            -- keep-sorted start numeric=yes
+            [27616] = 1000, -- Extra-Dimensional Ghost Revealer
+            [56774] = 1000, -- See Invis Tier 4
+            -- keep-sorted end
+        },
+        [7] = {
+            -- keep-sorted start numeric=yes
+            [27105] = 100, -- Ufrang's Hall: See Vaelen's Invisibility
+            [27622] = 100, -- Get the Key: Vaelen's Invisibility & See Invisibility
+            [37468] = 200, -- Spectrecles
+            [45636] = 150, -- Mist of the Kvaldir
+            [47118] = 300, -- Envision Drakuru
+            [47150] = 300, -- Envision Drakuru
+            [47317] = 300, -- Envision Drakuru
+            [47406] = 300, -- Envision Drakuru
+            [50735] = 1000, -- Frenzyheart Chicken: See Invisibility
+            [51966] = 300, -- Scourge Disguise
+            [52192] = 300, -- Scourge Disguise
+            [52691] = 300, -- TEST SHAPESHIFT Scourge Disguise
+            [55486] = 1000, -- Collapsing Cave
+            [56305] = 400, -- See Quest Invisibility 1 (Ice Spike Bunny)
+            [56582] = 1000, -- See Brann Bronzebeard
+            [56771] = 300, -- See Invis Tier 1
+            [56780] = 300, -- See Invis Tier 1
+            [57745] = 1000, -- See Quest Invisibility 1
+            [59651] = 9999, -- Infra-green Vision
+            [60194] = 1000, -- See Invisibility
+            [60457] = 9999, -- See Cloak Dome Internal (DND(
+            [60462] = 101, -- See Cloaked Alliance Peeps
+            [61253] = 9999, -- In a Bomber
+            [61352] = 9999, -- Infra-green Vision
+            [66522] = 5000, -- See Alliance Snow Mounds
+            [1221136] = 101, -- Torment's Illusion
+            -- keep-sorted end
+        },
+        [8] = {
+            -- keep-sorted start numeric=yes
+            [34830] = 1000, -- Triangulation Point One
+            [34857] = 2000, -- Triangulation Point Two
+            [37495] = 550, -- Spectrecles
+            [40195] = 1000, -- Bombing Run: See Invisibility
+            [43060] = 5000, -- Eyes of the Eagle
+            [51115] = 501, -- Detect Monte's Invis (Mangal)
+            [51116] = 501, -- Detect Monte's Invis (Camp)
+            [52484] = 100, -- Zim'Torga: See Har'koa at Zim'Torga Invisibility
+            [52485] = 100, -- Altar of Har'koa: See Har'koa at the Altar of Har'koa Invisibility
+            [54504] = 1000, -- See Quest Invisibility 2
+            [56057] = 100, -- Savage Ledge: See Instructor Hroegar's Invisibility
+            [56772] = 1000, -- See Invis Tier 2
+            [59652] = 9999, -- Inside Cloak Dome
+            [59660] = 999, -- Inside Cloak Dome, Individual
+            [60197] = 1000, -- See Invisibility
+            [60463] = 11, -- See Cloaked Horde Peeps
+            [66523] = 5000, -- See Horde Snow Mounds
+            [74357] = 1000, -- Detect Poster Location Marker
+            [74358] = 1000, -- Detect Poster Location Marker
+            -- keep-sorted end
+        },
+        [9] = {
+            -- keep-sorted start numeric=yes
+            [35409] = 1000, -- Brain Damage
+            [37678] = 1000, -- Elixir of Shadows
+            [39597] = 550, -- See Ethereum Relay
+            [39673] = 5000, -- Aether Sight
+            [42169] = 5000, -- Reflective Dust
+            [44088] = 99999, -- Teleport: Set Return Rift
+            [46273] = 1000, -- Multiphase Goggles
+            [46808] = 1000, -- Multiphase Goggles
+            [50012] = 100000, -- See Nozdormu Invisibility
+            [52214] = 1000, -- Rainspeaker Treasures: See Invisibility
+            [56773] = 1000, -- See Invis Tier 3
+            [74467] = 1000, -- Detect Raging Fire Elemental Invisibility
+            [75166] = 1000, -- Spirit of the Tiger Aura (Rider)
+            [75179] = 1000, -- Matriarch's Shroud
+            -- keep-sorted end
+        },
+        [10] = {
+            -- keep-sorted start numeric=yes
+            [44855] = 1, -- Out of Phase
+            [44856] = 100, -- Bash'ir Phasing Device
+            [49097] = 100, -- Out of Body Experience
+            [52217] = 1000, -- Kartak and Sparktouched: See Invisibility
+            [75514] = 1000, -- See Celebration Invisibility
+            [370066] = 1001, -- Visions of Madness
+            [370767] = 1001, -- Essence of C'Thun
+            [417463] = 2001, -- Near Death Experience
+            [417803] = 2001, -- Emberglow Vision
+            [426019] = 101, -- Marshroom
+            -- keep-sorted end
+        },
+        [18] = {
+            -- keep-sorted start numeric=yes
+            [370832] = 1001, -- Gift of the Spider
+            [423435] = -99, -- Tim's Test Invis Detection
+            -- keep-sorted end
+        },
+        [28] = {
+            -- keep-sorted start numeric=yes
+            [17623] = (IsClassic and 1000 or nil), -- Visions of the Past
+            -- keep-sorted end
+        },
+        -- keep-sorted end
+    },
+    DetectStealth = {
+        -- keep-sorted start numeric=yes
+        [12608] = 10, -- Stealth Detection
+        [19480] = 30, -- Paranoia
+        [19885] = 30, -- Track Hidden
+        [20600] = 50, -- Perception
+        [21403] = 35, -- Ryson's All Seeing Eye
+        [423481] = 6, -- Minor Stealth Detection
+        -- keep-sorted end
+    },
     IsFeralForm = {
         [768] = true, -- Cat Form
         [5487] = true, -- Bear Form
@@ -187,7 +302,7 @@ Data.Aura = {
         [1135] = 332, -- drink
         [1137] = 489, -- drink
         [2639] = 70, -- food
-        [10250] =  800, -- drink
+        [10250] = 800, -- drink
         [16609] = 10, -- Warchief's Blessing
         [18140] = 735, -- Blessed Sunfruit Juice
         [18194] = (ECS.IsWotlk and 10 or 8), -- Mana Regeneration
@@ -488,6 +603,7 @@ Data.Aura = {
         [1227200] = 20, -- Wickedness
         [1236220] = -50, -- Slow
     },
+    -- keep-sorted end
 }
 Data.Enchant = {
     BlockValue = {
@@ -587,16 +703,33 @@ Data.Gem = {
     },
 }
 Data.Item = {
+    -- keep-sorted start block=yes
+    DetectInvisibility = {
+        -- keep-sorted start block=yes numeric=yes
+        [8] = {
+            -- keep-sorted start numeric=yes
+            [31104] = 550, -- Evoker's Helmet of Second Sight
+            [31105] = 550, -- Overlord's Helmet of Second Sight
+            [31106] = 550, -- Stalker's Helmet of Second Sight
+            [31107] = 550, -- Shamanistic Helmet of Second Sight
+            [31109] = 550, -- Stealther's Helmet of Second Sight
+            [31110] = 550, -- Druidic Helmet of Second Sight
+            -- keep-sorted end
+        },
+        -- keep-sorted end
+    },
     DetectStealth = {
+        -- keep-sorted start numeric=yes
         [10501] = (IsWotlk and 3 or 18), -- Catseye Ultra Goggles
-        [16555] = (IsWotlk and 1 or 10), -- General's Dragonhide Gloves
+        [16397] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Gloves
         [16448] = (IsWotlk and 1 or 10), -- Marshal's Dragonhide Gauntlets
         [16496] = (IsWotlk and 1 or 10), -- Blood Guard's Dragonhide Gauntlets
-        [22863] = (IsWotlk and 1 or 10), -- Blood Guard's Dragonhide Grips
-        [16397] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Gloves
-        [23280] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Grips
+        [16555] = (IsWotlk and 1 or 10), -- General's Dragonhide Gloves
         [19998] = (IsWotlk and 1 or 10), -- Bloodvine Lens
+        [22863] = (IsWotlk and 1 or 10), -- Blood Guard's Dragonhide Grips
+        [23280] = (IsWotlk and 1 or 10), -- Knight-Lieutenant's Dragonhide Grips
         [31333] = (IsWotlk and 1 or 10), -- The Night Watchman
+        -- keep-sorted end
     },
     IsTimeworn = {
         [233496] = true,
@@ -862,10 +995,11 @@ Data.Item = {
         [234028] = 2,
         [234032] = 2,
     },
+    -- keep-sorted end
 }
-Data.Talent ={
+Data.Talent = {
     [Data.ROGUE] = {
-        HEIGHTENED_SENSES = {30894,30895},
+        HEIGHTENED_SENSES = { 30894, 30895 },
     },
 }
 Data.setNames = {

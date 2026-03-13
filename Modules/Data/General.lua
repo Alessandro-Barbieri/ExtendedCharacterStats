@@ -1,7 +1,10 @@
-local GetDebuffDataByIndex = C_UnitAuras.GetDebuffDataByIndex
-local IsPlayerSpell = C_SpellBook.IsPlayerSpell
-local GetInventoryItemID = GetInventoryItemID
+-- keep-sorted start case=no
 local GetBuffDataByIndex = C_UnitAuras.GetBuffDataByIndex
+local GetDebuffDataByIndex = C_UnitAuras.GetDebuffDataByIndex
+local GetInventoryItemID = GetInventoryItemID
+local IsClassic = ECS.IsClassic
+local IsPlayerSpell = C_SpellBook.IsPlayerSpell
+-- keep-sorted end
 
 ---@class Data
 local Data = ECSLoader:ImportModule("Data")
@@ -73,6 +76,14 @@ end
 ---@return table<number>
 function Data:GetInvisibilityDetection()
     local mod = {}
+
+    -- items
+    if not IsClassic then
+        for i = 1, 18 do
+            local id, _ = GetInventoryItemID("player", i)
+            mod[8] = (mod[8] or 0) + (Data.Item.DetectStealth[0][id] or 0)
+        end
+    end
 
     -- buffs
     local i = 1
