@@ -6,12 +6,6 @@ local GetItemQualityByID = C_Item.GetItemQualityByID
 local GetItemQualityColor = C_Item.GetItemQualityColor
 local ipairs = ipairs
 
----@class GearInfos
-local GearInfos = ECSLoader:CreateModule("GearInfos")
-
--- Forward declaration
-local _CreateGearColorFrames, _UpdateColorFrame, _GetInspectGearSlots
-
 local GEAR_SLOT_FRAMES = {
     CharacterHeadSlot,
     CharacterNeckSlot,
