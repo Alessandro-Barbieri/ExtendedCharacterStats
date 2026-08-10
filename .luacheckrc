@@ -3,6 +3,7 @@ exclude_files = {
     ".github/",
     ".history/",
     ".idea/",
+    ".types/",
     "Libs/",
     "releases/",
     ".luacheckrc",
@@ -2795,19 +2796,26 @@ stds.ecs = {
         -- keep-sorted end
         "-----------------------------------------------------> Project Specific",
         -- keep-sorted start case=no
+        "ECS",
+        "ECSConfigFrame",
+        "ECSLoader",
+        "ExtendedCharacterStats",
+        "SLASH_ECS1",
+        "SlashCmdList",
+        -- keep-sorted end
+        -----------------------------------------------------> busted unit testing
+        -- keep-sorted start case=no
+        "after_each",
         "assert.are_same",
         "assert.is_nil",
         "assert.spy",
         "before_each",
         "describe",
-        "ECS",
-        "ECSConfigFrame",
-        "ECSLoader",
-        "ExtendedCharacterStats",
         "it",
-        "SLASH_ECS1",
-        "SlashCmdList",
+        "mock",
+        "setup",
         "spy",
+        "teardown",
         -- keep-sorted end
     }
 }
