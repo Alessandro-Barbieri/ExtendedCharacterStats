@@ -30,7 +30,6 @@ Utils.CHAR_EQUIP_SLOTS = {
     ["Range"] = "RangedSlot",
 }
 
----@class Colors
 Utils.colors = {
     ATTACK_POWER_PRIMARY = "ffa000",
     ATTACK_POWER_SECONDARY = "ffd149",
@@ -71,8 +70,9 @@ Utils.colors = {
     GRAY = "A8A8A8",
 }
 
----@param text string
----@param color Color
+---@param text string|number
+---@param color string
+---@return string
 function Utils.Colorize(text, color)
     return "|cFF" .. color .. text .. "|r"
 end
