@@ -285,15 +285,6 @@ Data.Aura = {
         [25918] = (ECS.IsClassic and 1 or nil), -- Greater Blessing of Wisdom rank 2
     },
     PowerRegenPercentModifier = {
-        [Enum.PowerType.Energy] = {
-            [13750] = 1, -- Adrenaline Rush
-            [58427] = 0.3, -- Overkill
-            [66203] = -1, -- Steam Blast
-            [69470] = -1, -- Heat Drain
-            [70385] = -1, -- Abomination Vehicle Power Drain
-            [72242] = -1, -- Zero Power
-            [1231381] = 0.26, -- Feral Dedication
-        },
         [Enum.PowerType.Mana] = {
             [5419] = (ECS.IsTBC and -0.11 or nil), -- Travel Form (Passive)
             [5421] = (ECS.IsTBC and -0.11 or nil), -- Aquatic Form (Passive)
@@ -312,16 +303,6 @@ Data.Aura = {
             [63725] = 0.5, -- Holy Concentration
             [456195] = 4, -- Innervate
             [468466] = 1, -- Unmaking the Simulacrum
-        },
-        [Enum.PowerType.RuneBlood] = {
-            [50469] = -0.5, -- Rhythm of the Fallen
-            [50779] = 1, -- Blood Rune Mastery
-        },
-        [Enum.PowerType.RuneFrost] = {
-            [50469] = -0.5, -- Rhythm of the Fallen
-        },
-        [Enum.PowerType.RuneUnholy] = {
-            [50469] = -0.5, -- Rhythm of the Fallen
         },
     },
     SpellCrit = {
