@@ -5,13 +5,17 @@ local DataUtils = ECSLoader:ImportModule("DataUtils")
 ---@type Utils
 local Utils = ECSLoader:ImportModule("Utils")
 
-local _Defense = {}
-
+-- keep-sorted start case=no
 local _, _, classId = UnitClass("player")
-
-local MAX_SKILL = (UnitLevel("player")) * 5
+local _Defense = {}
 -- Every 25 defense reduce the chance to be critically hit by 1 %
 local DEFENSE_FOR_CRIT_REDUCTION = 25
+local DRUID = Data.DRUID
+local MAX_SKILL = (UnitLevel("player")) * 5
+local PRIEST = Data.PRIEST
+local ROGUE = Data.ROGUE
+local WARLOCK = Data.WARLOCK
+-- keep-sorted end
 
 ---@return number
 function Data:GetArmorValue()
@@ -62,27 +66,27 @@ function _Defense:GetCritReduction()
     end
     local critReducingFromResilience = GetCombatRatingBonus(15)
 
-    if classId == Data.DRUID then
+    if classId == DRUID then
         local coeff = ECS.IsWotlk and 2 or 1
-        meleeCritReduction = meleeCritReduction + coeff * DataUtils:GetActiveTalentSpell({33853,33855,33856}) -- Survival of the Fittest
-    elseif classId == Data.PRIEST then
+        meleeCritReduction = meleeCritReduction + coeff * DataUtils:GetActiveTalentSpell(Data.Talent[DRUID].SURVIVAL_OF_THE_FITTEST)
+    elseif classId == PRIEST then
         if ECS.IsTBC then
-            spellCritReduction = spellCritReduction + 2 * DataUtils:GetActiveTalentSpell({14910,33371})  -- shadow resilience
+            spellCritReduction = spellCritReduction + 2 * DataUtils:GetActiveTalentSpell(Data.Talent[PRIEST].SHADOW_RESILIENCE)
         end
-    elseif classId == Data.ROGUE then
-        local mod = 1 * DataUtils:GetActiveTalentSpell({30892,30893}) -- Sleight of Hand
+    elseif classId == ROGUE then
+        local mod = 1 * DataUtils:GetActiveTalentSpell(Data.Talent[ROGUE].SLEIGHT_OF_HAND)
         meleeCritReduction = meleeCritReduction + mod
         rangedCritReduction = rangedCritReduction + mod
-    elseif classId == Data.WARLOCK then
+    elseif classId == WARLOCK then
         if not ECS.IsClassic then
-            local mod = 1 * DataUtils:GetActiveTalentSpell({30319,30320,30321}) -- Demonic Resilience
+            local mod = 1 * DataUtils:GetActiveTalentSpell(Data.Talent[WARLOCK].DEMONIC_RESILIENCE)
             meleeCritReduction = meleeCritReduction + mod
             rangedCritReduction = rangedCritReduction + mod
         end
     end
 
     if ECS.IsSoD then
-        if classId == Data.DRUID or classId == Data.ROGUE then
+        if classId == DRUID or classId == ROGUE then
             local chestRune = DataUtils.GetRuneForEquipSlot(Utils.CHAR_EQUIP_SLOTS.Chest)
             if chestRune and (chestRune == 6710 or chestRune == 6972) then
                 meleeCritReduction = meleeCritReduction + 6 -- survival of the fittest / Just a Flesh Wound
@@ -123,7 +127,7 @@ function _Defense:GetEnemyMissChance(enemyLevel)
     local miss
     if ECS.IsWotlk then
         local defense = math.floor(GetCombatRatingBonus(CR_DEFENSE_SKILL));
-        local enemyMissCoef = classId == Data.DRUID and 0.972 or 0.956; -- 0.972 for bears
+        local enemyMissCoef = classId == DRUID and 0.972 or 0.956; -- 0.972 for bears
         local baseMissChance = 5 - (enemyAttackRating - select(1, UnitDefense("player"))) * 0.04; -- vs lvl 80
         if defense > 0 then -- avoid possible division by 0
             local enemyMissChance = baseMissChance + 1 / (0.0625 + enemyMissCoef / (defense * 0.04))
@@ -139,29 +143,37 @@ function _Defense:GetEnemyMissChance(enemyLevel)
     return miss
 end
 
+---@param enemyLevel number
 ---@return number
-function _Defense:GetBlockChance()
+function _Defense:GetBlockChance(enemyLevel)
     local block = 0
     if C_SpellBook.IsSpellKnown(107) and C_PaperDollInfo.OffhandHasShield() then
-       block = GetBlockChance()
+       block = GetBlockChance() + ((UnitLevel("player") - enemyLevel) * .20)
     end
     return block
 end
 
+---@param enemyLevel number
 ---@return number
-function _Defense:GetParryChance()
+function _Defense:GetParryChance(enemyLevel)
     local parry = 0
     if C_SpellBook.IsSpellKnown(3127) or C_SpellBook.IsSpellKnown(18848) or C_SpellBook.IsSpellKnown(3124) then
-        parry = GetParryChance()
+        -- In theory we should compare the player's base defense skill with
+        -- the attacker's weapon skill. Unfortunately there's no API function
+        -- to retrieve the former. The following formula leads to the same
+        -- results except when the player just gained a level and his/her
+        -- defense skill did not catch up yet.
+        parry = GetParryChance() + ((UnitLevel("player") - enemyLevel) * .20)
     end
     return parry
 end
 
+---@param enemyLevel number
 ---@return number
-function _Defense:GetDodgeChance()
+function _Defense:GetDodgeChance(enemyLevel)
     local dodge = 0
     if C_SpellBook.IsSpellKnown(81) then
-        dodge = GetDodgeChance()
+        dodge = GetDodgeChance() + ((UnitLevel("player") - enemyLevel) * .20)
     end
     return dodge
 end
@@ -169,7 +181,7 @@ end
 ---@param enemyLevel number
 ---@return number
 function _Defense:GetAvoidance(enemyLevel)
-    return _Defense:GetEnemyMissChance(enemyLevel) + _Defense:GetBlockChance() + _Defense:GetParryChance() + _Defense:GetDodgeChance()
+    return _Defense:GetEnemyMissChance(enemyLevel) + _Defense:GetBlockChance(enemyLevel) + _Defense:GetParryChance(enemyLevel) + _Defense:GetDodgeChance(enemyLevel)
 end
 
 ---@return number
@@ -187,19 +199,28 @@ function Data:GetDefenseValue()
     return skillRank + skillModifier
 end
 
+---@param enemyLevel number
 ---@return string
-function Data:GetDodgeChance()
-    return DataUtils:Round(_Defense:GetDodgeChance(), 2) .. "%"
+function Data:GetDodgeChance(enemyLevel)
+    return DataUtils:Round(_Defense:GetDodgeChance(enemyLevel), 2) .. "%"
 end
 
+---@param enemyLevel number
 ---@return string
-function Data:GetParryChance()
-    return DataUtils:Round(_Defense:GetParryChance(), 2) .. "%"
+function Data:GetParryChance(enemyLevel)
+    return DataUtils:Round(_Defense:GetParryChance(enemyLevel), 2) .. "%"
 end
 
+---@param enemyLevel number
 ---@return string
-function Data:GetBlockChance()
-    return DataUtils:Round(_Defense:GetBlockChance(), 2) .. "%"
+function Data:GetBlockChance(enemyLevel)
+    return DataUtils:Round(_Defense:GetBlockChance(enemyLevel), 2) .. "%"
+end
+
+---@param enemyLevel number
+---@return string
+function Data:GetEnemyMissChance(enemyLevel)
+    return DataUtils:Round(_Defense:GetEnemyMissChance(enemyLevel), 2) .. "%"
 end
 
 ---@param enemyLevel number

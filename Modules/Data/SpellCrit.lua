@@ -3,9 +3,16 @@ local Data = ECSLoader:ImportModule("Data")
 ---@type DataUtils
 local DataUtils = ECSLoader:ImportModule("DataUtils")
 
-local _SpellCrit = {}
-
+-- keep-sorted start case=no
 local _, _, classId = UnitClass("player")
+local _SpellCrit = {}
+local DRUID = Data.DRUID
+local MAGE = Data.MAGE
+local PALADIN = Data.PALADIN
+local PRIEST = Data.PRIEST
+local SHAMAN = Data.SHAMAN
+local WARLOCK = Data.WARLOCK
+-- keep-sorted end
 
 ---@param school number
 ---@return string
@@ -27,7 +34,6 @@ function _SpellCrit:GetSpellCritFromBuffs(school)
         local aura = C_UnitAuras.GetBuffDataByIndex("player", i)
         i = i + 1
         if aura and aura.spellId then
-            mod = mod + (Data.Aura.SpellCrit[aura.spellId] or 0)
             if school == Data.FIRE_SCHOOL then
                 if aura.spellId == 28682 then
                     mod = mod + (aura.applications * 10) -- 10% for each stack from Combustion
@@ -53,29 +59,27 @@ end
 function _SpellCrit:GetGeneralTalentModifier()
     local mod = 0
 
-    if classId == Data.MAGE then
-        if not ECS.IsClassic then
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({15058,15059,15060}) -- Arcane Instability
+    if classId == MAGE then
+        if ECS.IsClassic then
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[MAGE].ARCANE_INSTABILITY)
         end
-    elseif classId == Data.DRUID then
+    elseif classId == DRUID then
         if ECS.IsWotlk then
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({33881,33882,33883}) -- Natural Perfection
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[DRUID].NATURAL_PERFECTION)
         end
-    elseif classId == Data.WARLOCK then
+    elseif classId == WARLOCK then
         if ECS.IsWotlk then
-            mod = mod + 2 * DataUtils:GetActiveTalentSpell({30242,30245,30246,30247,30248}) -- Demonic Tactics
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({34935,34938,34939}) -- Backlash
+            mod = mod + 2 * DataUtils:GetActiveTalentSpell(Data.Talent[WARLOCK].DEMONIC_TACTICS)
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[WARLOCK].BACKLASH)
         end
-
-        mod = mod + 1 * DataUtils:GetActiveTalentSpell({18130,18131,18132,18133,18134}) -- Devastation
     elseif classId == Data.SHAMAN then
         if ECS.IsWotlk then
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({16255,16302,16303,16304,16305}) -- Thundering Strikes
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[SHAMAN].THUNDERING_STRIKES)
         end
-    elseif classId == Data.PALADIN then
+    elseif classId == PALADIN then
         if ECS.IsWotlk then
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({20117,20118,20119,20120,20121}) -- Conviction
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({32043,35396,35397}) -- Sanctity of Battle
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[PALADIN].CONVICTION)
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[PALADIN].SANCTITY_OF_BATTLE)
         end
     end
 
@@ -97,13 +101,12 @@ end
 ---@return number
 function _SpellCrit:GetTalentModifierHolyCrit()
     local mod = 0
-
-    if classId == Data.PRIEST then
-        -- Holy Specialization
-        mod = 1 * DataUtils:GetActiveTalentSpell({14889,15008,15009,15010,15011})
-    elseif classId == Data.PALADIN then
-        -- Holy Power
-        mod = 1 * DataUtils:GetActiveTalentSpell({5923,5924,5925,5926,25829})
+    if ECS.IsClassic then
+      if classId == PRIEST then
+          mod = 1 * DataUtils:GetActiveTalentSpell(Data.Talent[PRIEST].HOLY_SPECIALIZATION)
+      elseif classId == PALADIN then
+          mod = 1 * DataUtils:GetActiveTalentSpell(Data.Talent[PALADIN].HOLY_POWER)
+      end
     end
     return mod
 end
@@ -112,16 +115,16 @@ end
 function _SpellCrit:GetTalentModifierFireCrit()
     local mod = 0
 
-    if classId == Data.MAGE then
-        mod = mod + 2 * DataUtils:GetActiveTalentSpell({11115,11367,11368}) -- Critical Mass
-
-        if ECS.IsWotlk then
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({34293,34295,34296}) -- Pyromaniac
+    if classId == MAGE then
+        if ECS.IsClassic then
+          mod = mod + 2 * DataUtils:GetActiveTalentSpell(Data.Talent[MAGE].CRITICAL_MASS)
+        elseif ECS.IsWotlk then
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[MAGE].PYROMANIAC)
         end
-    elseif classId == Data.WARLOCK then
+    elseif classId == WARLOCK then
         if ECS.IsClassic then
             -- Devastation (while this increases the crit chance of "Destruction spells" there are no fire spells, which are not destruction spells)
-            mod = mod + 1 * DataUtils:GetActiveTalentSpell({18130,18131,18132,18133,18134})
+            mod = mod + 1 * DataUtils:GetActiveTalentSpell(Data.Talent[WARLOCK].DEVASTATION)
         end
     end
 

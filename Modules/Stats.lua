@@ -129,6 +129,33 @@ function Stats.CreateWindow()
         end
     end)
 
+    if _G.ElvUI then
+        local E = _G.ElvUI[1]
+        local S = E:GetModule("Skins")
+        if S and E.private.skins and E.private.skins.blizzard.enable and E.private.skins.blizzard.character then
+            S:HandleFrame(mainFrame)
+            if mainFrame.CloseButton then
+                mainFrame.CloseButton:SetPoint("TOPRIGHT", 2, 2)
+            end
+            mainFrame.title:ClearAllPoints()
+            mainFrame.title:SetPoint("TOP", mainFrame, "TOP", 0, -8)
+            mainFrame.title:SetFont(E.media.normFont, 13)
+
+            S:HandleButton(mainFrame.configButton)
+            mainFrame.configButton:SetPoint("CENTER", mainFrame, "TOP", -1, -32)
+
+            S:HandleButton(toggleButton)
+
+            local scrollBar = mainFrame.ScrollFrame.ScrollBar
+            if scrollBar then
+                S:HandleScrollBar(scrollBar)
+            end
+
+            mainFrame.ScrollFrame:SetPoint("TOPLEFT", mainFrame, "TOPLEFT", -28, -50)
+            mainFrame.ScrollFrame:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMRIGHT", -28, 10)
+        end
+    end
+
     _CreateStatInfos()
     Config.CreateWindow()
 end
@@ -281,6 +308,8 @@ _CreateStatInfos = function()
         category.spellCritReduction,
         category.avoidance,
         category.avoidanceBoss,
+        category.enemyMissChance,
+        category.enemyMissChanceBoss,
         (not ECS.IsClassic) and category.defenseRating or nil,
         category.defense,
         (not ECS.IsClassic and DataUtils:CanBlock()) and category.blockRating or nil,
@@ -309,6 +338,7 @@ _CreateStatInfos = function()
         category.hasteBonus,
         (not ECS.IsClassic) and category.penetrationRating or nil,
         (not ECS.IsClassic) and category.penetration or nil,
+        spellBonus.baseSpellDmg,
         spellBonus.bonusHealing,
         (not ECS.IsClassic) and spellHit.rating or nil,
         spell.arcane.display and spellBonus.arcaneDmg or nil,
