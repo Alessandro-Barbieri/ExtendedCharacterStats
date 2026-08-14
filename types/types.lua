@@ -15,8 +15,8 @@
 ---@field display boolean
 ---@field refName string
 ---@field text string
----@field textColor Color
----@field statColor Color
+---@field textColor string
+---@field statColor string
 
 ---@class SubCategory
 ---@field display boolean
