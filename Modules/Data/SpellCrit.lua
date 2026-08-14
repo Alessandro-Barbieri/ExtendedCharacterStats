@@ -43,7 +43,6 @@ function _SpellCrit:GetSpellCritFromBuffs(school)
         local aura = GetBuffDataByIndex("player", i)
         i = i + 1
         if aura and aura.spellId then
-            mod = mod + (Data.Aura.SpellCrit[aura.spellId] or 0)
             if school == Data.FIRE_SCHOOL then
                 if aura.spellId == 28682 then
                     mod = mod + (aura.applications * 10) -- 10% for each stack from Combustion
